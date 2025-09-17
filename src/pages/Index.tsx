@@ -5,7 +5,7 @@ import ExpenseForm from "@/components/ExpenseForm";
 import BudgetBuddy from "@/components/BudgetBuddy";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, PlusCircle, MessageCircle, Users } from "lucide-react";
-import heroImage from "@/assets/hero-finance.jpg";
+import heroImage from "@/assets/professional-finance-hero.jpg";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -20,21 +20,21 @@ const Index = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                Take Control of Your
-                <span className="bg-gradient-primary bg-clip-text text-transparent"> Finances</span>
+                Professional Finance
+                <span className="bg-gradient-primary bg-clip-text text-transparent"> Management</span>
               </h1>
-              <p className="text-xl text-muted-foreground">
-                Track expenses, set budgets, and get AI-powered insights to achieve your financial goals. 
-                Join thousands who've improved their financial health with BudgetWise.
+              <p className="text-lg text-muted-foreground">
+                Advanced expense tracking, budget planning, and financial insights. 
+                Take control of your finances with professional-grade tools and AI-powered recommendations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="bg-success/10 border border-success/20 rounded-lg p-4 flex-1">
                   <div className="text-2xl font-bold text-success">₹32,000</div>
                   <p className="text-sm text-muted-foreground">Average monthly savings</p>
                 </div>
-                <div className="bg-coral/10 border border-coral/20 rounded-lg p-4 flex-1">
-                  <div className="text-2xl font-bold text-coral">15 mins</div>
-                  <p className="text-sm text-muted-foreground">Daily time to manage budget</p>
+                <div className="bg-finance-blue/10 border border-finance-blue/20 rounded-lg p-4 flex-1">
+                  <div className="text-2xl font-bold text-finance-blue">98%</div>
+                  <p className="text-sm text-muted-foreground">Budget accuracy rate</p>
                 </div>
               </div>
             </div>
@@ -42,10 +42,10 @@ const Index = () => {
             <div className="relative">
               <img 
                 src={heroImage} 
-                alt="Finance management dashboard illustration" 
-                className="rounded-2xl shadow-card w-full h-auto"
+                alt="Professional finance dashboard with charts and analytics" 
+                className="rounded-xl shadow-lg w-full h-auto"
               />
-              <div className="absolute inset-0 bg-gradient-primary opacity-10 rounded-2xl"></div>
+              <div className="absolute inset-0 bg-gradient-primary opacity-5 rounded-xl"></div>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ const Index = () => {
               <p className="text-muted-foreground mb-6">
                 Create shared budgets with friends, family, or roommates. Split expenses and track contributions together.
               </p>
-              <div className="bg-coral/10 border border-coral/20 rounded-lg p-6 max-w-md mx-auto">
+              <div className="bg-finance-blue/10 border border-finance-blue/20 rounded-lg p-6 max-w-md mx-auto">
                 <p className="text-sm text-muted-foreground">
                   Group features require backend integration. Connect to Supabase to enable shared budgets, expense splitting, and real-time collaboration.
                 </p>

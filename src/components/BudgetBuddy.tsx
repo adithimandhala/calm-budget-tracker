@@ -17,7 +17,7 @@ const BudgetBuddy = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      text: "Hi! I'm Budget Buddy, your AI finance companion. I've analyzed your spending and noticed you're doing great with transportation savings! How can I help you today?",
+      text: "Hello! I'm your Financial Assistant. I've analyzed your spending patterns and noticed excellent transportation savings! How can I help optimize your finances today?",
       sender: "buddy",
       timestamp: new Date(),
       suggestions: [
@@ -90,11 +90,11 @@ const BudgetBuddy = () => {
   };
 
   return (
-    <Card className="bg-gradient-card shadow-card border-none h-[600px] flex flex-col">
+    <Card className="bg-card shadow-card h-[600px] flex flex-col">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center space-x-2">
-          <Bot className="h-5 w-5 text-coral" />
-          <span>Budget Buddy</span>
+          <Bot className="h-5 w-5 text-finance-blue" />
+          <span>Financial Assistant</span>
           <div className="flex items-center space-x-1 ml-auto">
             <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
             <span className="text-xs text-muted-foreground">Online</span>
@@ -110,13 +110,13 @@ const BudgetBuddy = () => {
                 <div className={`max-w-[80%] ${message.sender === "user" ? "order-2" : "order-1"}`}>
                   <div className={`flex items-start space-x-2 ${message.sender === "user" ? "flex-row-reverse space-x-reverse" : ""}`}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      message.sender === "user" ? "bg-coral text-primary-foreground" : "bg-accent"
+                      message.sender === "user" ? "bg-finance-blue text-primary-foreground" : "bg-accent"
                     }`}>
                       {message.sender === "user" ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                     </div>
                     <div className={`rounded-lg p-3 ${
                       message.sender === "user" 
-                        ? "bg-coral text-primary-foreground" 
+                        ? "bg-finance-blue text-primary-foreground" 
                         : "bg-accent text-accent-foreground"
                     }`}>
                       <p className="text-sm">{message.text}</p>
@@ -150,7 +150,7 @@ const BudgetBuddy = () => {
         
         <div className="flex space-x-2">
           <Input
-            placeholder="Ask Budget Buddy anything..."
+            placeholder="Ask Financial Assistant anything..."
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
@@ -159,7 +159,6 @@ const BudgetBuddy = () => {
           <Button 
             onClick={handleSendMessage}
             disabled={!inputMessage.trim()}
-            className="bg-gradient-primary hover:opacity-90"
           >
             <Send className="w-4 h-4" />
           </Button>

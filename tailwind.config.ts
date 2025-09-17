@@ -55,13 +55,14 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Finance app specific colors
-        coral: "hsl(var(--coral-accent))",
-        beige: "hsl(var(--warm-beige))",
-        pink: "hsl(var(--soft-pink))",
+        // Professional finance app colors
+        "finance-blue": "hsl(var(--finance-blue))",
+        "finance-navy": "hsl(var(--finance-navy))",
         expense: "hsl(var(--expense-red))",
         income: "hsl(var(--income-green))",
-        budget: "hsl(var(--budget-blue))",
+        budget: "hsl(var(--budget-purple))",
+        savings: "hsl(var(--savings-teal))",
+        neutral: "hsl(var(--neutral-gray))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
@@ -82,11 +83,12 @@ export default {
         'gradient-primary': 'var(--gradient-primary)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-success': 'var(--gradient-success)',
+        'gradient-chart': 'var(--gradient-chart)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
         'card': 'var(--shadow-card)',
-        'glow': 'var(--shadow-glow)',
+        'lg': 'var(--shadow-lg)',
       },
       keyframes: {
         "accordion-down": {

@@ -59,11 +59,11 @@ const ExpenseForm = ({ onAddExpense }: { onAddExpense?: (expense: any) => void }
   };
 
   return (
-    <Card className="bg-gradient-card shadow-card border-none">
+    <Card className="bg-card shadow-card">
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
-          <DollarSign className="h-5 w-5 text-coral" />
-          <span>Add New Expense</span>
+          <DollarSign className="h-5 w-5 text-finance-blue" />
+          <span>Add New Transaction</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -120,9 +120,9 @@ const ExpenseForm = ({ onAddExpense }: { onAddExpense?: (expense: any) => void }
             </div>
           </div>
 
-          <Button type="submit" className="w-full bg-gradient-primary hover:opacity-90">
+          <Button type="submit" className="w-full">
             <Tag className="w-4 h-4 mr-2" />
-            Add Expense
+            Add Transaction
           </Button>
         </form>
       </CardContent>
