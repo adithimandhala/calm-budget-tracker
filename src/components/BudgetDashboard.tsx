@@ -144,16 +144,55 @@ const BudgetDashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Time Period Selector */}
+      {/* Time Period & Budget */}
       <Card>
         <CardContent className="p-4 flex items-center justify-between flex-wrap gap-3">
-          <div className="text-sm text-gray-600">
-            Time period
+          <div className="flex items-center gap-3">
+            <div className="text-sm text-gray-600">Time period</div>
+            <div className="flex gap-2">
+              <Button size="sm" variant={timePeriod === "monthly" ? "default" : "outline"} onClick={() => setTimePeriod("monthly")}>Monthly</Button>
+              <Button size="sm" variant={timePeriod === "weekly" ? "default" : "outline"} onClick={() => setTimePeriod("weekly")}>Weekly</Button>
+              <div className="relative">
+                <Button size="sm" variant={timePeriod === "custom" ? "default" : "outline"} onClick={() => setTimePeriod("custom")}>Custom</Button>
+                {timePeriod === "custom" && (
+                  <div className="absolute z-10 mt-2 w-64 bg-card border rounded-md p-3 shadow">
+                    <div className="text-xs text-muted-foreground mb-2">Choose a range</div>
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      <select className="border rounded px-2 py-1 bg-background" defaultValue="weeks">
+                        <option value="weeks">Weeks</option>
+                        <option value="months">Months</option>
+                      </select>
+                      <select className="border rounded px-2 py-1 bg-background" defaultValue="3">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="6">6</option>
+                      </select>
+                    </div>
+                    <div className="flex justify-end">
+                      <Button size="sm" onClick={() => setTimePeriod("custom")}>Apply</Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button size="sm" variant={timePeriod === "monthly" ? "default" : "outline"} onClick={() => setTimePeriod("monthly")}>Monthly</Button>
-            <Button size="sm" variant={timePeriod === "weekly" ? "default" : "outline"} onClick={() => setTimePeriod("weekly")}>Weekly</Button>
-            <Button size="sm" variant={timePeriod === "custom" ? "default" : "outline"} onClick={() => setTimePeriod("custom")}>Custom</Button>
+          <div className="flex items-center gap-2">
+            <div className="text-sm text-gray-600">Set total budget</div>
+            <input
+              type="number"
+              defaultValue={totalBudget}
+              className="w-36 h-9 rounded-md border px-2 bg-background"
+              onBlur={(e) => {
+                const v = Number(e.target.value);
+                if (!isFinite(v) || v <= 0) return;
+                // Re-scale category limits proportionally
+                const currentTotal = getTotalBudget();
+                if (currentTotal <= 0) return;
+                const scale = v / currentTotal;
+                budgetCategories.forEach((c) => adjustBudgetLimit(c.id, Math.round(c.limit * scale)));
+              }}
+            />
           </div>
         </CardContent>
       </Card>
