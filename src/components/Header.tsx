@@ -1,7 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, PlusCircle, User } from "lucide-react";
 
-const Header = () => {
+interface HeaderProps {
+  onAIAssistantClick?: () => void;
+  onAddTransactionClick?: () => void;
+}
+
+const Header = ({ onAIAssistantClick, onAddTransactionClick }: HeaderProps) => {
   return (
     <header className="bg-card shadow-card border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,11 +22,19 @@ const Header = () => {
           </div>
           
           <div className="flex items-center space-x-3">
-            <Button variant="outline" size="sm" className="hidden sm:flex text-xs">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="hidden sm:flex text-xs"
+              onClick={onAIAssistantClick}
+            >
               <MessageCircle className="w-4 h-4 mr-1" />
               AI Assistant
             </Button>
-            <Button size="sm">
+            <Button 
+              size="sm"
+              onClick={onAddTransactionClick}
+            >
               <PlusCircle className="w-4 h-4 mr-1" />
               Add Transaction
             </Button>

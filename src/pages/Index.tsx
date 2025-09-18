@@ -3,16 +3,28 @@ import Header from "@/components/Header";
 import Dashboard from "@/components/Dashboard";
 import ExpenseForm from "@/components/ExpenseForm";
 import BudgetBuddy from "@/components/BudgetBuddy";
+import BudgetDashboard from "@/components/BudgetDashboard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, PlusCircle, MessageCircle, Users } from "lucide-react";
+import { BarChart3, PlusCircle, MessageCircle, Users, Target } from "lucide-react";
 import heroImage from "@/assets/professional-finance-hero.jpg";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
 
+  const handleAIAssistantClick = () => {
+    setActiveTab("budget-buddy");
+  };
+
+  const handleAddTransactionClick = () => {
+    setActiveTab("add-expense");
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header 
+        onAIAssistantClick={handleAIAssistantClick}
+        onAddTransactionClick={handleAddTransactionClick}
+      />
       
       {/* Hero Section */}
       <section className="relative bg-gradient-card border-b border-border">
@@ -54,10 +66,14 @@ const Index = () => {
       {/* Main App Interface */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5 lg:w-auto lg:grid-cols-5">
             <TabsTrigger value="dashboard" className="flex items-center space-x-2">
               <BarChart3 className="w-4 h-4" />
               <span className="hidden sm:inline">Dashboard</span>
+            </TabsTrigger>
+            <TabsTrigger value="budget-tracker" className="flex items-center space-x-2">
+              <Target className="w-4 h-4" />
+              <span className="hidden sm:inline">Budget Tracker</span>
             </TabsTrigger>
             <TabsTrigger value="add-expense" className="flex items-center space-x-2">
               <PlusCircle className="w-4 h-4" />
@@ -75,6 +91,10 @@ const Index = () => {
 
           <TabsContent value="dashboard" className="space-y-6">
             <Dashboard />
+          </TabsContent>
+
+          <TabsContent value="budget-tracker" className="space-y-6">
+            <BudgetDashboard />
           </TabsContent>
 
           <TabsContent value="add-expense" className="space-y-6">
