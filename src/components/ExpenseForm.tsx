@@ -7,7 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, DollarSign, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+import { useBudget } from "@/hooks/BudgetContext";
+
 const ExpenseForm = ({ onAddExpense }: { onAddExpense?: (expense: any) => void }) => {
+  const budget = useBudget();
   const [expense, setExpense] = useState({
     amount: "",
     category: "",
@@ -41,7 +44,22 @@ const ExpenseForm = ({ onAddExpense }: { onAddExpense?: (expense: any) => void }
       return;
     }
 
-    // Mock success - will integrate with backend
+    // Update local category spending so BudgetDashboard reflects instantly
+    if (expense.category && expense.amount) {
+      const map: Record<string, string> = {
+        "Food & Dining": "1",
+        "Transportation": "2",
+        "Entertainment": "3",
+        "Shopping": "4",
+        "Utilities": "5",
+        "Healthcare": "6",
+      };
+      const categoryId = map[expense.category];
+      if (categoryId) {
+        budget.updateCategorySpending(categoryId, Number(expense.amount));
+      }
+    }
+
     onAddExpense?.(expense);
     
     toast({

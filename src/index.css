@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .animated-gradient-bg {
+    background: linear-gradient(70deg, rgba(29,78,216,0.25), rgba(16,185,129,0.25), rgba(212,175,55,0.2));
+    background-size: 200% 200%;
+    animation: gradientShift 18s ease-in-out infinite;
+  }
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/40 shadow-sm rounded-xl;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */

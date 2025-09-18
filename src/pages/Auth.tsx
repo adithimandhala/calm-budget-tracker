@@ -3,13 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { API } from "@/lib/api";
+import { useNavigate } from "react-router-dom";
 
 const Auth = ({ onSuccess }: { onSuccess: () => void }) => {
+  const navigate = useNavigate();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [accountName, setAccountName] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [ifsc, setIfsc] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -24,7 +27,8 @@ const Auth = ({ onSuccess }: { onSuccess: () => void }) => {
         const res = await API.auth.login({ accountNumber, password });
         API.token = res.token;
       }
-      onSuccess();
+      onSuccess?.();
+      navigate("/", { replace: true });
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -46,7 +50,12 @@ const Auth = ({ onSuccess }: { onSuccess: () => void }) => {
           {mode === "signup" && (
             <Input placeholder="IFSC Number" value={ifsc} onChange={(e) => setIfsc(e.target.value)} />
           )}
-          <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className="flex gap-2">
+            <Input type={showPassword ? "text" : "password"} placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <Button type="button" variant="outline" onClick={() => setShowPassword((v) => !v)}>
+              {showPassword ? "Hide" : "Show"}
+            </Button>
+          </div>
           {error && <div className="text-sm text-red-600">{error}</div>}
           <div className="flex gap-2">
             <Button className="flex-1" onClick={submit} disabled={loading}>

@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, PlusCircle, User } from "lucide-react";
+import { MessageCircle, PlusCircle, User, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { API } from "@/lib/api";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
   onAIAssistantClick?: () => void;
@@ -7,6 +10,13 @@ interface HeaderProps {
 }
 
 const Header = ({ onAIAssistantClick, onAddTransactionClick }: HeaderProps) => {
+  const navigate = useNavigate();
+  const logout = () => {
+    API.token = "";
+    localStorage.removeItem("token");
+    navigate("/auth", { replace: true });
+  };
+  const authed = !!API.token;
   return (
     <header className="bg-card shadow-card border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,21 +36,35 @@ const Header = ({ onAIAssistantClick, onAddTransactionClick }: HeaderProps) => {
               variant="outline" 
               size="sm" 
               className="hidden sm:flex text-xs"
-              onClick={onAIAssistantClick}
+              onClick={() => navigate("/assistant")}
             >
               <MessageCircle className="w-4 h-4 mr-1" />
               AI Assistant
             </Button>
             <Button 
               size="sm"
-              onClick={onAddTransactionClick}
+              onClick={() => navigate("/add")}
             >
               <PlusCircle className="w-4 h-4 mr-1" />
               Add Transaction
             </Button>
-            <Button variant="ghost" size="sm">
-              <User className="w-4 h-4" />
-            </Button>
+            <Button variant="outline" size="sm" onClick={() => navigate("/")}>Dashboard</Button>
+            <Button variant="outline" size="sm" onClick={() => navigate("/groups")}>Groups</Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm">
+                  <User className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem disabled={!authed}>{authed ? "Signed in" : "Not signed in"}</DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="w-4 h-4 mr-2" /> Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </div>
