@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useBudgetTracker } from '@/hooks/useBudgetTracker';
 import OverspendingAlert from './OverspendingAlert';
+import UnderspendingReward from './UnderspendingReward';
 import AchievementNotification from './AchievementNotification';
 import ScratchCard from './ScratchCard';
 import BudgetAdjustModal from './BudgetAdjustModal';
@@ -66,26 +67,44 @@ const BudgetDashboard = () => {
     const remaining = category.limit - category.spent;
     const overAmount = category.spent - category.limit;
     
-    // Clear logic: Only show overspent if significantly over (10%+)
-    if (category.spent > category.limit && percentage >= 110) {
+    // Custom logic based on time period and actual spending patterns
+    let overspendThreshold = 110; // Default 10% over
+    let underspendThreshold = 30; // Default 30% under
+    
+    // Adjust thresholds based on time period
+    if (timePeriod === 'weekly') {
+      overspendThreshold = 115; // More lenient for weekly (15% over)
+      underspendThreshold = 25; // Less strict for weekly (25% under)
+    } else if (timePeriod === 'monthly') {
+      overspendThreshold = 110; // Standard monthly (10% over)
+      underspendThreshold = 30; // Standard monthly (30% under)
+    } else if (timePeriod === 'custom') {
+      overspendThreshold = 120; // More lenient for custom periods (20% over)
+      underspendThreshold = 35; // More generous for custom periods (35% under)
+    }
+    
+    // Only show overspent if significantly over threshold AND has actual spending
+    if (category.spent > category.limit && percentage >= overspendThreshold && category.spent > 0) {
       return {
         status: 'overspent',
         color: 'text-red-600',
         bgColor: 'bg-red-50',
         borderColor: 'border-red-200',
         icon: <AlertTriangle className="w-4 h-4" />,
-        text: `Over by ₹${overAmount.toLocaleString()}`
+        text: `Over by ₹${overAmount.toLocaleString()}`,
+        threshold: overspendThreshold
       };
     } 
-    // Only show underspent if significantly under (30%+ savings)
-    else if (remaining > category.limit * 0.3 && category.spent > 0) {
+    // Only show underspent if significantly under threshold AND has actual spending
+    else if (remaining > category.limit * (underspendThreshold / 100) && category.spent > 0) {
       return {
         status: 'underspent',
         color: 'text-green-600',
         bgColor: 'bg-green-50',
         borderColor: 'border-green-200',
         icon: <Trophy className="w-4 h-4" />,
-        text: `Saved ₹${remaining.toLocaleString()}`
+        text: `Saved ₹${remaining.toLocaleString()}`,
+        threshold: underspendThreshold
       };
     } 
     // Everything else is on-track
@@ -96,7 +115,8 @@ const BudgetDashboard = () => {
         bgColor: 'bg-blue-50',
         borderColor: 'border-blue-200',
         icon: <Target className="w-4 h-4" />,
-        text: `₹${remaining.toLocaleString()} left`
+        text: `₹${remaining.toLocaleString()} left`,
+        threshold: 0
       };
     }
   };
@@ -143,6 +163,44 @@ const BudgetDashboard = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Overspending Alerts */}
+      {budgetCategories.map((category) => {
+        const status = getCategoryStatus(category);
+        if (status.status === 'overspent') {
+          return (
+            <OverspendingAlert
+              key={category.name}
+              category={category.name}
+              spent={category.spent}
+              budget={category.limit}
+              onDismiss={() => {}}
+            />
+          );
+        }
+        return null;
+      })}
+
+      {/* Underspending Rewards */}
+      {budgetCategories.map((category) => {
+        const status = getCategoryStatus(category);
+        if (status.status === 'underspent' && category.spent > 0) {
+          const savedAmount = category.limit - category.spent;
+          return (
+            <UnderspendingReward
+              key={category.name}
+              category={category.name}
+              savedAmount={savedAmount}
+              budget={category.limit}
+              onClaim={(reward) => {
+                console.log('Reward claimed:', reward);
+                // Here you would typically save the reward to user's account
+              }}
+            />
+          );
+        }
+        return null;
+      })}
 
       {/* Time Period & Budget */}
       <Card>
